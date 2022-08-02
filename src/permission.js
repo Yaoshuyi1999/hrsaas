@@ -11,6 +11,9 @@ router.beforeEach((to,form,next)=>{
     const token=store.state.user.token
     // 进行权限控制：
     if(token){
+        if(!store.state.user.userInfo.userId){
+            store.dispatch('user/getUserInfo')
+        }
     // 1.登录
         // 是否进入登录页
         if(to.path==='/login'){
