@@ -13,7 +13,7 @@ export default {
     async getToken(context,payload){
       // 发送请求得来的
       const res=await login(payload)
-      console.log(res);
+      // console.log(res);
       context.commit('setToken', res)
     }
   }

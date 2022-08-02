@@ -5,6 +5,7 @@ Vue.use(Router)
 
 /* Layout */
 import Layout from '@/layout'
+import VueRouter from 'vue-router'
 
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -169,7 +170,7 @@ const createRouter = () => new Router({
   scrollBehavior: () => ({ y: 0 }),
   routes: constantRoutes
 })
-
+// VueRouter实例
 const router = createRouter()
 
 // Detail see: https://github.com/vuejs/vue-router/issues/1234#issuecomment-357941465
