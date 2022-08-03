@@ -14,6 +14,7 @@ import router from './router'
 
 import '@/icons' // icon
 import '@/permission' // permission control
+import * as directives from '@/directives'
 
 // mock假数据
 if (process.env.NODE_ENV === 'production') {
@@ -31,6 +32,13 @@ Vue.use(ElementUI, { locale })
 // production生产
 // 关闭一些提示，在开发期间保留，打包上线以后就可以关闭了
 Vue.config.productionTip = false
+// 图片加载失败，就使用自定义指令，插入默认的图片
+//参数1:自定义指令的名字:不需要+v-
+//参数2:是配置对象
+for (const key in directives) {
+  Vue.directive(key, directives[key])
+}
+
 
 new Vue({
   el: '#app',

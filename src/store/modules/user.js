@@ -1,4 +1,5 @@
 import {getUserInfoApi, login,getUserDetail} from '@/api/user'
+import { setToken, setTokenTime } from '@/utils/auth'
 export default {
   namespaced: true,
   state: {
@@ -20,12 +21,18 @@ export default {
       const res=await login(payload)
       // console.log(res);
       context.commit('setToken', res)
+      setTokenTime()
     },
     // 获取用户信息
     async getUserInfo(context){
       const userBaseInfo=await getUserInfoApi()
       const userInfo = await getUserDetail(userBaseInfo.userId)
       context.commit('setUserInfo',{...userBaseInfo,...userInfo})
+    },
+    // 退出
+    logout(context){
+      context.commit('setToken',''),
+      context.commit('setUserInfo',{})
     }
   }
 }

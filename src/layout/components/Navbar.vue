@@ -7,15 +7,19 @@
     />
 
     <div class="app-breadcrumb">
-      {{$store.state.user.userInfo.companyName}}
+      {{ $store.state.user.userInfo.companyName }}
       <span class="breadBtn">体验版</span>
     </div>
 
     <div class="right-menu">
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
-          <img :src='$store.state.user.userInfo.staffPhoto' class="user-avatar" />
-          <span>{{$store.state.user.userInfo.username}}</span>
+          <img
+            :src="$store.state.user.userInfo.staffPhoto"
+            class="user-avatar"
+            v-imgError="defaultImg"
+          />
+          <span>{{ $store.state.user.userInfo.username }}</span>
           <i class="el-icon-caret-bottom" />
         </div>
         <el-dropdown-menu slot="dropdown" class="user-dropdown">
@@ -35,8 +39,16 @@
 import { mapGetters } from "vuex";
 import Breadcrumb from "@/components/Breadcrumb";
 import Hamburger from "@/components/Hamburger";
+// 本地图片的使用（因为后期需要打包上线，所以本地路径会出现问题）
+import defaultImg from '@/assets/common/head.jpg'
 
 export default {
+  data () {
+    return {
+      defaultImg
+      // defaultImg:'http://likede2-admin.itheima.net/img/logo.3673fab5.png'
+    }
+  },
   components: {
     Breadcrumb,
     Hamburger,
