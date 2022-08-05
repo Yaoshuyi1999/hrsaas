@@ -17,6 +17,8 @@
 
 <script>
 import TreeTools from "./components/tree-tools.vue";
+import { getDeptsApi } from "@/api/department";
+import { transListToTree } from "@/utils";
 export default {
   components: {
     TreeTools,
@@ -27,17 +29,21 @@ export default {
         label: "name",
       },
       company: { name: "传智教育", manager: "负责人" },
-      treeData: [
-        { name: "总裁办", children: [{ name: "董事会" }] },
-        { name: "行政部" },
-        { name: "人事部" },
-      ],
+      treeData: [],
     };
   },
 
-  created() {},
+  created() {
+    this.loadDepts();
+  },
 
-  methods: {},
+  methods: {
+    async loadDepts() {
+      const res = await getDeptsApi();
+      // console.log(res);
+      this.treeData = transListToTree(res.depts, "");
+    },
+  },
 };
 </script>
 
