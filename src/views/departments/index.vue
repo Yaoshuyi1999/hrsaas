@@ -1,7 +1,7 @@
 <template>
   <div class="dashboard-container">
     <div class="app-container">
-      <el-card class="box-card">
+      <el-card class="box-card" v-loading="loading">
         <!--头部-->
         <tree-tools
           :treeNode="company"
@@ -15,6 +15,7 @@
               :treeNode="data"
               @remove="loadDepts"
               @add="showAddDept"
+              @edit="showEdit"
             ></tree-tools>
           </template>
         </el-tree>
@@ -23,6 +24,7 @@
 
     <!-- 添加部门弹层 -->
     <add-dept
+      ref="addDept"
       @add-success="loadDepts"
       :visible.sync="dialogVisible"
       :currentNode="currentNode"
@@ -49,6 +51,7 @@ export default {
       treeData: [],
       dialogVisible: false,
       currentNode: {},
+      loading: false,
     };
   },
 
@@ -58,12 +61,19 @@ export default {
 
   methods: {
     async loadDepts() {
+      this.loading = true;
       const res = await getDeptsApi();
       // console.log(res);
       this.treeData = transListToTree(res.depts, "");
+      this.loading = false;
     },
     showAddDept(val) {
-      (this.dialogVisible = true), (this.currentNode = val);
+      this.dialogVisible = true;
+      this.currentNode = val;
+    },
+    showEdit(val) {
+      this.dialogVisible = true;
+      this.$refs.addDept.getDeptById(val.id);
     },
   },
 };
