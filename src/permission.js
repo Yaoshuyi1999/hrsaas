@@ -7,12 +7,12 @@ import store from './store'
 // next:是否进入
 // 调用了next进入该路由,如果没有调用则无法进入
 const whiteList = ['/login', '/404']
-router.beforeEach((to,form,next)=>{
-    const token=store.state.user.token
+router.beforeEach(async(to,form,next)=>{
+     const token=store.state.user.token
     // 进行权限控制：
     if(token){
         if(!store.state.user.userInfo.userId){
-            store.dispatch('user/getUserInfo')
+            await store.dispatch('user/getUserInfo')
         }
     // 1.登录
         // 是否进入登录页
