@@ -11,10 +11,12 @@
             <el-table-column prop="name" label="角色"> </el-table-column>
             <el-table-column prop="description" label="描述"> </el-table-column>
             <el-table-column label="操作">
-              <template>
+              <template slot-scope="{ row }">
                 <el-button type="success">分配权限</el-button>
                 <el-button type="primary">编辑</el-button>
-                <el-button type="danger">删除</el-button>
+                <el-button type="danger" @click="onRemove(row.id)"
+                  >删除</el-button
+                >
               </template>
             </el-table-column>
           </el-table>
@@ -39,16 +41,19 @@
           </el-alert>
           <el-form ref="form" label-width="80px">
             <el-form-item label="公司名称">
-              <el-input disabled></el-input>
+              <el-input disabled v-model="companyInfo.name"></el-input>
             </el-form-item>
             <el-form-item label="公司地址">
-              <el-input disabled></el-input>
+              <el-input
+                disabled
+                v-model="companyInfo.companyAddress"
+              ></el-input>
             </el-form-item>
             <el-form-item label="公司邮箱">
-              <el-input disabled></el-input>
+              <el-input disabled v-model="companyInfo.mailbox"></el-input>
             </el-form-item>
             <el-form-item label="备注">
-              <el-input disabled></el-input>
+              <el-input disabled v-model="companyInfo.remarks"></el-input>
             </el-form-item>
           </el-form>
         </el-tab-pane>
@@ -84,7 +89,7 @@
 </template>
 
 <script>
-import { getRolesApi, addRolesApi } from "@/api/role";
+import { getRolesApi, addRolesApi, removeRolesApi } from "@/api/role";
 import { getCompanyInfoApi } from "@/api/setting";
 export default {
   data() {
@@ -106,6 +111,7 @@ export default {
           { required: true, message: "角色名称不能为空", trigger: "blur" },
         ],
       },
+      companyInfo: {},
     };
   },
 
@@ -153,11 +159,19 @@ export default {
       this.$refs.form.resetFields();
       this.addRoleForm.description = "";
     },
+    // 删除
+    async onRemove(id) {
+      // console.log(id);
+      await removeRolesApi(id);
+      this.$message.success("添加成功");
+      this.getRoles();
+    },
+    // 获取公司信息
     async getCompanyInfo() {
       const res = await getCompanyInfoApi(
         this.$store.state.user.userInfo.companyId
       );
-      console.log(res);
+      this.companyInfo = res;
     },
   },
 };
