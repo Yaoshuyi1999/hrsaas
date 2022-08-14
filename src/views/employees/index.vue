@@ -4,8 +4,15 @@
       <page-tools>
         <span slot="left-tag">共166条记录</span>
         <template slot="right">
-          <el-button size="small" type="warning" @click="$router.push('./import')">导入</el-button>
-          <el-button size="small" type="danger">导出</el-button>
+          <el-button
+            size="small"
+            type="warning"
+            @click="$router.push('./import')"
+            >导入</el-button
+          >
+          <el-button size="small" type="danger" @click="exportExcel"
+            >导出</el-button
+          >
           <el-button size="small" type="primary" @click="showAdd"
             >新增员工</el-button
           >
@@ -89,13 +96,17 @@
     </div>
 
     <!-- 添加员工组件 -->
-    <AddEmployees :visible.sync="showAddEmployees" @add-success='getEmployeesList'></AddEmployees>
+    <AddEmployees
+      :visible.sync="showAddEmployees"
+      @add-success="getEmployeesList"
+    ></AddEmployees>
   </div>
 </template>
 
 <script>
 import { getEmployeesInfoApi, delEmployee } from "@/api/employees";
 import employees from "@/constant/employees";
+const { exportExcelMapPath, hireType } = employees;
 import AddEmployees from "./components/add-employees.vue";
 export default {
   data() {
@@ -131,7 +142,7 @@ export default {
     },
     // 格式化聘用形式的数据
     formatFormOfEmployment(row, column, cellValue, index) {
-      const findItem = employees.hireType.find((item) => item.id === cellValue);
+      const findItem = hireType.find((item) => item.id === cellValue);
       return findItem ? findItem.value : "未知";
     },
     // 删除功能
@@ -148,6 +159,33 @@ export default {
     // 添加员工
     showAdd() {
       this.showAddEmployees = true;
+    },
+    async exportExcel() {
+      const { export_json_to_excel } = await import("@/vendor/Export2Excel");
+      const { rows } = await getEmployeesInfoApi({
+        page: 1,
+        size: this.total,
+      });
+      const header = Object.keys(exportExcelMapPath);
+      const data = rows.map((item) => {
+        return header.map((h) => {
+          if (h === "聘用形式") {
+            const findItem = hireType.find((hire) => {
+              return hire.id === item[exportExcelMapPath[h]];
+            });
+            return findItem ? findItem.value : "未知";
+          } else {
+            return item[exportExcelMapPath[h]];
+          }
+        });
+      });
+      export_json_to_excel({
+        header, //表头 必填
+        data,
+        filename: "excel-list", //非必填
+        autoWidth: true, //非必填
+        bookType: "xlsx", //非必填
+      });
     },
   },
 };

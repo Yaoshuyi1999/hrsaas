@@ -1,6 +1,6 @@
 // 员工
 export default {
-  // 路径映射表
+  // 导入的路径映射表
   importMapKeyPath : {
     入职日期: "timeOfEntry",
     姓名: "username",
@@ -8,6 +8,16 @@ export default {
     手机号: "mobile",
     转正日期: "correctionTime",
   },
+  // 导出的映射表
+  exportExcelMapPath: {
+    '手机号': 'mobile',
+    '姓名': 'username',
+    '入职日期': 'timeOfEntry',
+    '聘用形式': 'formOfEmployment',
+    '转正日期': 'correctionTime',
+    '工号': 'workNumber',
+    '部门': 'departmentName'
+},
   // 聘用形式
   hireType: [
     {
