@@ -16,10 +16,6 @@
           <el-button size="small" type="primary" @click="showAdd"
             >新增员工</el-button
           >
-          <!-- <el-button type="danger">普通excel导出</el-button>
-          <el-button type="info">复杂表头excel导出</el-button>
-          <el-button type="success">excel导入</el-button>
-          <el-button type="primary">新增员工</el-button> -->
         </template>
       </page-tools>
       <!-- 放置表格和分页 -->
@@ -67,7 +63,12 @@
           </el-table-column>
           <el-table-column label="操作" sortable fixed="right" width="280">
             <template slot-scope="{ row }">
-              <el-button type="text" size="small">查看</el-button>
+              <el-button
+                type="text"
+                size="small"
+                @click="$router.push('/employees/detail/' + row.id)"
+                >查看</el-button
+              >
               <el-button type="text" size="small">转正</el-button>
               <el-button type="text" size="small">调岗</el-button>
               <el-button type="text" size="small">离职</el-button>
