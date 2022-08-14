@@ -14,9 +14,21 @@ import router from './router'
 
 import '@/icons' // icon
 import '@/permission' // permission control
+// 引入自定义指令
 import * as directives from '@/directives'
-
+// 引入过滤器
+import * as filters from '@/filters'
+// 引入组件
 import components from '@/components'
+// 统一注册自定义指令
+for (const key in directives) {
+  Vue.directive(key, directives[key])
+}
+// 统一注册过滤器
+for (const key in filters) {
+  Vue.filter(key, filters[key])
+}
+// 统一注册组件
 Vue.use(components)
 
 
@@ -39,10 +51,6 @@ Vue.config.productionTip = false
 // 图片加载失败，就使用自定义指令，插入默认的图片
 //参数1:自定义指令的名字:不需要+v-
 //参数2:是配置对象
-for (const key in directives) {
-  Vue.directive(key, directives[key])
-}
-
 
 new Vue({
   el: '#app',
