@@ -58,6 +58,10 @@
         <el-col :span="12">
           <el-form-item label="员工头像">
             <!-- 放置上传图片 -->
+            <UploadImg
+              ref="headerImg"
+              @onSuccess="headerImgSuccess"
+            ></UploadImg>
           </el-form-item>
         </el-col>
       </el-row>
@@ -90,9 +94,12 @@
         </el-form-item>
         <!-- 个人头像 -->
         <!-- 员工照片 -->
-
         <el-form-item label="员工照片">
           <!-- 放置上传图片 -->
+          <UploadImg
+            ref="employeesPic"
+            @onSuccess="employeesPicSuccess"
+          ></UploadImg>
         </el-form-item>
         <el-form-item label="国家/地区">
           <el-select v-model="formData.nationalArea" class="inputW2">
@@ -393,6 +400,7 @@
 import EmployeeEnum from "@/constant/employees";
 import { getUserDetail, saveUserDetailById } from "@/api/user";
 import { getPersonalDetail, updatePersonal } from "@/api/employees";
+import UploadImg from "@/components/UploadImg";
 
 export default {
   data() {
@@ -465,6 +473,9 @@ export default {
       },
     };
   },
+  components: {
+    UploadImg,
+  },
   created() {
     this.loadUserDetail();
   },
@@ -472,17 +483,36 @@ export default {
     async loadUserDetail() {
       // 这里把上下的两次渲染放在一起触发了
       this.userInfo = await getUserDetail(this.userId);
+      this.$refs.headerImg.fileList.push({
+        url: this.userInfo.staffPhoto,
+      });
       this.formData = await getPersonalDetail(this.userId);
+      this.$refs.employeesPic.fileList.push({
+        url: this.formData.staffPhoto,
+      });
     },
     // 显示的时候都是created里面触发，所有可以一起写
     // 但是保存的时候是分为两个按钮，所以不可以放在一起
     async onSaveUserDetail() {
+      if (this.$refs.headerImg.loading) {
+        return this.$message.error("图片正在上传中，请稍后");
+      }
       await saveUserDetailById(this.userInfo);
       this.$message.success("修改成功");
     },
     async onSaveEmployeesInfo() {
+      if (this.$refs.employeesPic.loading) {
+        return this.$message.error("图片正在上传中，请稍后");
+      }
       await updatePersonal(this.formData);
       this.$message.success("修改成功");
+    },
+    // 上传成功
+    headerImgSuccess({ url }) {
+      this.userInfo.staffPhoto = url;
+    },
+    employeesPicSuccess({ url }) {
+      this.formData.staffPhoto = url;
     },
   },
 };
