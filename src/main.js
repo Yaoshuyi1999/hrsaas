@@ -20,6 +20,10 @@ import * as directives from '@/directives'
 import * as filters from '@/filters'
 // 引入组件
 import components from '@/components'
+// 引入打印
+import Print from 'vue-print-nb'
+Vue.use(Print);
+
 // 统一注册自定义指令
 for (const key in directives) {
   Vue.directive(key, directives[key])
