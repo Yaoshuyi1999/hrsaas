@@ -1,7 +1,7 @@
 <template>
   <div>
     <i
-      @click="$router.push('/employees/print?type=job')"
+      @click="$router.push(`/employees/print/${userId}?type=personal`)"
       class="el-icon-printer"
     ></i>
   </div>
@@ -10,7 +10,9 @@
 <script>
 export default {
   data() {
-    return {};
+    return {
+      userId: this.$route.params.id,
+    };
   },
 
   created() {},
