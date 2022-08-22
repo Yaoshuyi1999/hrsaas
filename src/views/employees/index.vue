@@ -8,12 +8,17 @@
             size="small"
             type="warning"
             @click="$router.push('./import')"
+            v-if="isHas(point.employees.import)"
             >导入</el-button
           >
           <el-button size="small" type="danger" @click="exportExcel"
             >导出</el-button
           >
-          <el-button size="small" type="primary" @click="showAdd"
+          <el-button
+            v-if="isHas(point.employees.add)"
+            size="small"
+            type="primary"
+            @click="showAdd"
             >新增员工</el-button
           >
         </template>
@@ -78,7 +83,11 @@
                 @click="showAssignDialog(row.id)"
                 >角色</el-button
               >
-              <el-button type="text" size="small" @click="onRemove(row.id)"
+              <el-button
+                type="text"
+                size="small"
+                @click="onRemove(row.id)"
+                v-if="isHas(point.employees.del)"
                 >删除</el-button
               >
             </template>
@@ -127,6 +136,7 @@ const { exportExcelMapPath, hireType } = employees;
 import AddEmployees from "./components/add-employees.vue";
 import assignRole from "./components/assign-role.vue";
 import QRcode from "qrcode";
+import MixinPermission from "@/mixins/permission";
 export default {
   data() {
     return {
@@ -142,6 +152,8 @@ export default {
       currentEmployeesId: "",
     };
   },
+
+  mixins: [MixinPermission],
 
   created() {
     this.getEmployeesList();
@@ -179,7 +191,6 @@ export default {
         console.log(error);
       }
     },
-    // 添加员工
     showAdd() {
       this.showAddEmployees = true;
     },
