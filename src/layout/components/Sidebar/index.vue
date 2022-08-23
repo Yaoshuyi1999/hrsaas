@@ -24,38 +24,38 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import Logo from "./Logo";
-import SidebarItem from "./SidebarItem";
-import variables from "@/styles/variables.scss";
+import { mapGetters } from 'vuex'
+import Logo from './Logo'
+import SidebarItem from './SidebarItem'
+import variables from '@/styles/variables.scss'
 
 export default {
   components: { SidebarItem, Logo },
   computed: {
-    ...mapGetters(["sidebar"]),
+    ...mapGetters(['sidebar']),
     routes() {
       // 可以获取到所有路由规则(动态添加的)
-      // 我们自己去维护一个路由规则(所有路由)
-      return this.$store.state.permission.routes;
+      //  我们自己去维护一个路由规则(所有路由)
+      return this.$store.state.permission.routes
     },
     activeMenu() {
-      const route = this.$route;
-      const { meta, path } = route;
+      const route = this.$route
+      const { meta, path } = route
       // if set path, the sidebar will highlight the path you set
       if (meta.activeMenu) {
-        return meta.activeMenu;
+        return meta.activeMenu
       }
-      return path;
+      return path
     },
     showLogo() {
-      return this.$store.state.settings.sidebarLogo;
+      return this.$store.state.settings.sidebarLogo
     },
     variables() {
-      return variables;
+      return variables
     },
     isCollapse() {
-      return !this.sidebar.opened;
+      return !this.sidebar.opened
     },
   },
-};
+}
 </script>

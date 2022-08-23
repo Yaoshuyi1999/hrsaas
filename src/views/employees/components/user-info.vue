@@ -62,10 +62,7 @@
         <el-col :span="12">
           <el-form-item label="员工头像">
             <!-- 放置上传图片 -->
-            <UploadImg
-              ref="headerImg"
-              @onSuccess="headerImgSuccess"
-            ></UploadImg>
+            <upload-img ref="headerImg" @onSuccess="headerImgSuccess" />
           </el-form-item>
         </el-col>
       </el-row>
@@ -98,12 +95,10 @@
         </el-form-item>
         <!-- 个人头像 -->
         <!-- 员工照片 -->
+
         <el-form-item label="员工照片">
           <!-- 放置上传图片 -->
-          <UploadImg
-            ref="employeesPic"
-            @onSuccess="employeesPicSuccess"
-          ></UploadImg>
+          <upload-img ref="employeesPic" @onSuccess="employeesPicSuccess" />
         </el-form-item>
         <el-form-item label="国家/地区">
           <el-select v-model="formData.nationalArea" class="inputW2">
@@ -401,10 +396,9 @@
 </template>
 
 <script>
-import EmployeeEnum from "@/constant/employees";
-import { getUserDetail, saveUserDetailById } from "@/api/user";
-import { getPersonalDetail, updatePersonal } from "@/api/employees";
-import UploadImg from "@/components/UploadImg";
+import EmployeeEnum from '@/constant/employees'
+import { getUserDetail, saveUserDetailById } from '@/api/user.js'
+import { getPersonalDetail, updatePersonal } from '@/api/employees.js'
 
 export default {
   data() {
@@ -413,113 +407,112 @@ export default {
       EmployeeEnum, // 员工枚举数据
       userInfo: {},
       formData: {
-        userId: "",
-        username: "", // 用户名
-        sex: "", // 性别
-        mobile: "", // 手机
-        companyId: "", // 公司id
-        departmentName: "", // 部门名称
+        userId: '',
+        username: '', // 用户名
+        sex: '', // 性别
+        mobile: '', // 手机
+        companyId: '', // 公司id
+        departmentName: '', // 部门名称
         //  onTheJobStatus: '', // 在职状态 no
-        dateOfBirth: "", // 出生日期
-        timeOfEntry: "", // 入职时间
-        theHighestDegreeOfEducation: "", // 最高学历
-        nationalArea: "", // 国家
-        passportNo: "", // 护照号
-        idNumber: "", // 身份证号
-        idCardPhotoPositive: "", // 身份证照正
-        idCardPhotoBack: "", // 身份证照正
-        nativePlace: "", // 籍贯
-        nation: "", // 民族
-        englishName: "", // 英文名字
-        maritalStatus: "", // 婚姻状况
-        staffPhoto: "", // 员工照片
-        birthday: "", // 生日
-        zodiac: "", // 属相
-        age: "", // 年龄
-        constellation: "", // 星座
-        bloodType: "", // 血型
-        domicile: "", // 户籍所在地
-        politicalOutlook: "", // 政治面貌
-        timeToJoinTheParty: "", // 入党时间
-        archivingOrganization: "", // 存档机构
-        stateOfChildren: "", // 子女状态
-        doChildrenHaveCommercialInsurance: "1", // 保险状态
-        isThereAnyViolationOfLawOrDiscipline: "", // 违法违纪状态
-        areThereAnyMajorMedicalHistories: "", // 重大病史
-        qq: "", // QQ
-        wechat: "", // 微信
-        residenceCardCity: "", // 居住证城市
-        dateOfResidencePermit: "", // 居住证办理日期
-        residencePermitDeadline: "", // 居住证截止日期
-        placeOfResidence: "", // 现居住地
-        postalAddress: "", // 通讯地址
-        contactTheMobilePhone: "", // 联系手机
-        personalMailbox: "", // 个人邮箱
-        emergencyContact: "", // 紧急联系人
-        emergencyContactNumber: "", // 紧急联系电话
-        socialSecurityComputerNumber: "", // 社保电脑号
-        providentFundAccount: "", // 公积金账号
-        bankCardNumber: "", // 银行卡号
-        openingBank: "", // 开户行
-        educationalType: "", // 学历类型
-        graduateSchool: "", // 毕业学校
-        enrolmentTime: "", // 入学时间
-        graduationTime: "", // 毕业时间
-        major: "", // 专业
-        graduationCertificate: "", // 毕业证书
-        certificateOfAcademicDegree: "", // 学位证书
-        homeCompany: "", // 上家公司
-        title: "", // 职称
-        resume: "", // 简历
-        isThereAnyCompetitionRestriction: "", // 有无竞业限制
-        proofOfDepartureOfFormerCompany: "", // 前公司离职证明
-        remarks: "", // 备注
+        dateOfBirth: '', // 出生日期
+        timeOfEntry: '', // 入职时间
+        theHighestDegreeOfEducation: '', // 最高学历
+        nationalArea: '', // 国家
+        passportNo: '', // 护照号
+        idNumber: '', // 身份证号
+        idCardPhotoPositive: '', // 身份证照正
+        idCardPhotoBack: '', // 身份证照正
+        nativePlace: '', // 籍贯
+        nation: '', // 民族
+        englishName: '', // 英文名字
+        maritalStatus: '', // 婚姻状况
+        staffPhoto: '', // 员工照片
+        birthday: '', // 生日
+        zodiac: '', // 属相
+        age: '', // 年龄
+        constellation: '', // 星座
+        bloodType: '', // 血型
+        domicile: '', // 户籍所在地
+        politicalOutlook: '', // 政治面貌
+        timeToJoinTheParty: '', // 入党时间
+        archivingOrganization: '', // 存档机构
+        stateOfChildren: '', // 子女状态
+        doChildrenHaveCommercialInsurance: '1', // 保险状态
+        isThereAnyViolationOfLawOrDiscipline: '', // 违法违纪状态
+        areThereAnyMajorMedicalHistories: '', // 重大病史
+        qq: '', // QQ
+        wechat: '', // 微信
+        residenceCardCity: '', // 居住证城市
+        dateOfResidencePermit: '', // 居住证办理日期
+        residencePermitDeadline: '', // 居住证截止日期
+        placeOfResidence: '', // 现居住地
+        postalAddress: '', // 通讯地址
+        contactTheMobilePhone: '', // 联系手机
+        personalMailbox: '', // 个人邮箱
+        emergencyContact: '', // 紧急联系人
+        emergencyContactNumber: '', // 紧急联系电话
+        socialSecurityComputerNumber: '', // 社保电脑号
+        providentFundAccount: '', // 公积金账号
+        bankCardNumber: '', // 银行卡号
+        openingBank: '', // 开户行
+        educationalType: '', // 学历类型
+        graduateSchool: '', // 毕业学校
+        enrolmentTime: '', // 入学时间
+        graduationTime: '', // 毕业时间
+        major: '', // 专业
+        graduationCertificate: '', // 毕业证书
+        certificateOfAcademicDegree: '', // 学位证书
+        homeCompany: '', // 上家公司
+        title: '', // 职称
+        resume: '', // 简历
+        isThereAnyCompetitionRestriction: '', // 有无竞业限制
+        proofOfDepartureOfFormerCompany: '', // 前公司离职证明
+        remarks: '', // 备注
       },
-    };
-  },
-  components: {
-    UploadImg,
+    }
   },
   created() {
-    this.loadUserDetail();
+    this.loadUserDetail()
+    this.loadEmployeesInfo()
   },
   methods: {
     async loadUserDetail() {
-      // 这里把上下的两次渲染放在一起触发了
-      this.userInfo = await getUserDetail(this.userId);
+      this.userInfo = await getUserDetail(this.userId)
       this.$refs.headerImg.fileList.push({
         url: this.userInfo.staffPhoto,
-      });
-      this.formData = await getPersonalDetail(this.userId);
+      })
+    },
+    async loadEmployeesInfo() {
+      this.formData = await getPersonalDetail(this.userId)
       this.$refs.employeesPic.fileList.push({
         url: this.formData.staffPhoto,
-      });
+      })
     },
-    // 显示的时候都是created里面触发，所有可以一起写
-    // 但是保存的时候是分为两个按钮，所以不可以放在一起
     async onSaveUserDetail() {
       if (this.$refs.headerImg.loading) {
-        return this.$message.error("图片正在上传中，请稍后");
+        return this.$message.error('头像正在上传中')
       }
-      await saveUserDetailById(this.userInfo);
-      this.$message.success("修改成功");
+      await saveUserDetailById(this.userInfo)
+
+      this.$message.success('更新成功')
     },
     async onSaveEmployeesInfo() {
       if (this.$refs.employeesPic.loading) {
-        return this.$message.error("图片正在上传中，请稍后");
+        return this.$message.error('头像正在上传中')
       }
-      await updatePersonal(this.formData);
-      this.$message.success("修改成功");
+      await updatePersonal(this.formData)
+      this.$message.success('更新成功')
     },
-    // 上传成功
+    // 监听员工头像上传成功
     headerImgSuccess({ url }) {
-      this.userInfo.staffPhoto = url;
+      this.userInfo.staffPhoto = url
     },
+    // 监听员工照片上传成功
     employeesPicSuccess({ url }) {
-      this.formData.staffPhoto = url;
+      this.formData.staffPhoto = url
     },
   },
-};
+}
 </script>
 
 <style scoped></style>

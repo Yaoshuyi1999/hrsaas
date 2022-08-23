@@ -3,8 +3,8 @@
     <el-row type="flex">
       <el-col>
         <el-tag v-if="isShowLeft">
-          <i class="el-icon-info"></i>
-          <slot name="left-tag"></slot>
+          <i :class="leftIcon"></i>
+          <slot name="left-tag" />
         </el-tag>
       </el-col>
       <el-col>
@@ -18,25 +18,30 @@
 
 <script>
 export default {
-  name: "PageTools",
+  name: 'PageTools',
+  data() {
+    return {}
+  },
+
   props: {
     leftIcon: {
       type: String,
-      default: "el-icon-info",
+      default: 'el-icon-info',
     },
     isShowLeft: {
       type: Boolean,
-      default: false,
+      default: true,
     },
-  },
-  data() {
-    return {};
   },
 
   created() {},
 
   methods: {},
-};
+}
 </script>
 
-<style scoped></style>
+<style scoped lang="scss">
+.box-card {
+  margin: 10px 0;
+}
+</style>

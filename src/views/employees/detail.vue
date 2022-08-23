@@ -2,7 +2,7 @@
   <div class="dashboard-container">
     <div class="app-container">
       <el-card>
-        <el-tabs v-model="activeName" @tab-click="handleClick">
+        <el-tabs v-model="activeName" @tab-click="handleTabClick">
           <el-tab-pane name="account" label="登录账户设置">
             <!-- 放置表单 -->
             <el-form
@@ -10,13 +10,13 @@
               style="margin-left: 120px; margin-top: 30px"
             >
               <el-form-item label="姓名:">
-                <el-input style="width: 300px" v-model="formDate.username" />
+                <el-input v-model="formData.username" style="width: 300px" />
               </el-form-item>
               <el-form-item label="密码:">
                 <el-input
+                  v-model="formData.password"
                   style="width: 300px"
                   type="password"
-                  v-model="formDate.password"
                 />
               </el-form-item>
               <el-form-item>
@@ -24,11 +24,11 @@
               </el-form-item>
             </el-form>
           </el-tab-pane>
-          <el-tab-pane name="userInfo" label="个人详情">
-            <user-info></user-info>
+          <el-tab-pane name="user" label="个人详情">
+            <user-info />
           </el-tab-pane>
-          <el-tab-pane name="jobsInfo" label="岗位信息">
-            <jobInfo></jobInfo>
+          <el-tab-pane name="job" label="岗位信息">
+            <JobInfo />
           </el-tab-pane>
         </el-tabs>
       </el-card>
@@ -37,40 +37,49 @@
 </template>
 
 <script>
-import { getUserDetail, saveUserDetailById } from "@/api/user";
-import userInfo from "./components/user-info";
-import jobInfo from "./components/job-info";
-import Cookies from "js-cookie";
+import { getUserDetail, saveUserDetailById } from '@/api/user.js'
+import UserInfo from './components/user-info.vue'
+import JobInfo from './components/job-info.vue'
+import Cookies from 'js-cookie'
 export default {
   data() {
     return {
-      formDate: {},
-      activeName: Cookies.get("employeeDetailTab") || "account",
-    };
+      formData: {},
+      activeName: Cookies.get('employeeDetailTab') || 'account',
+    }
   },
+  // 路由开启props,此时可以接收路由参数
+  props: {
+    id: {
+      required: true,
+      type: String,
+    },
+  },
+
   components: {
-    userInfo,
-    jobInfo,
+    UserInfo,
+    JobInfo,
   },
 
   created() {
-    this.loadUserDetail();
+    this.loadUserDetail()
+    // console.log(this.$attrs)
   },
 
   methods: {
     async loadUserDetail() {
-      const res = await getUserDetail(this.$route.params.id);
-      this.formDate = res;
+      const res = await getUserDetail(this.$route.params.id)
+      this.formData = res
     },
     async onSave() {
-      await saveUserDetailById(this.formDate);
-      this.$message.success("修改成功");
+      await saveUserDetailById(this.formData)
+      this.$message.success('更新成功')
     },
-    handleClick() {
-      Cookies.set("employeeDetailTab", this.activeName);
+    handleTabClick() {
+      Cookies.set('employeeDetailTab', this.activeName)
     },
   },
-};
+}
 </script>
 
-<style scoped></style>
+<style scoped lang="less"></style>

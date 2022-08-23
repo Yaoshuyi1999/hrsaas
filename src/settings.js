@@ -1,5 +1,4 @@
 module.exports = {
-  // 网站名字
   title: 'hrsaas',
 
   /**
@@ -12,6 +11,5 @@ module.exports = {
    * @type {boolean} true | false
    * @description Whether show the logo in sidebar
    */
-  // 控制左侧logo
-  sidebarLogo: true
+  sidebarLogo: true,
 }

@@ -6,16 +6,19 @@
       @toggleClick="toggleSideBar"
     />
 
+    <!-- <breadcrumb class="breadcrumb-container" /> -->
     <div class="app-breadcrumb">
       {{ $store.state.user.userInfo.companyName }}
       <span class="breadBtn">体验版</span>
     </div>
 
     <div class="right-menu">
+      <ToggleLang></ToggleLang>
+      <full-screen></full-screen>
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
           <img
-            :src="$store.state.user.userInfo.staffPhoto"
+            :src="$store.state.user.userInfo.staffPhoto + '123'"
             class="user-avatar"
             v-imgError="defaultImg"
           />
@@ -39,15 +42,14 @@
 import { mapGetters } from "vuex";
 import Breadcrumb from "@/components/Breadcrumb";
 import Hamburger from "@/components/Hamburger";
-// 本地图片的使用（因为后期需要打包上线，所以本地路径会出现问题）
-import defaultImg from '@/assets/common/head.jpg'
+import defaultImg from "@/assets/common/head.jpg";
 
 export default {
-  data () {
+  // 如果想在data中定义本地图片路径,需要先引入
+  data() {
     return {
-      defaultImg
-      // defaultImg:'http://likede2-admin.itheima.net/img/logo.3673fab5.png'
-    }
+      defaultImg,
+    };
   },
   components: {
     Breadcrumb,
@@ -73,7 +75,7 @@ export default {
   height: 50px;
   overflow: hidden;
   position: relative;
-  background: -webkit-linear-gradient(bottom, #3d6df8, #5b8cff);
+  background-image: -webkit-linear-gradient(left, #3d6df8, #5b8cff);
   box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
 
   .app-breadcrumb {
@@ -118,6 +120,7 @@ export default {
     float: right;
     height: 100%;
     line-height: 50px;
+    display: flex;
 
     &:focus {
       outline: none;

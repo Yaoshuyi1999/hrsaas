@@ -1,7 +1,7 @@
 <template>
   <div class="login-container">
-    <!--表单校验1.添加model属性:整个表单数据-->
-    <!--表单校验2.添加rules属性:整个表单校验规则-->
+    <!-- 表单校验 1. 添加model属性: 整个表单数据 -->
+    <!-- 表单校验 2. 添加rules属性: 整个表单校验规则 -->
     <el-form
       ref="loginForm"
       class="login-form"
@@ -19,21 +19,19 @@
 
       <!-- 表单区域 -->
       <el-form-item prop="mobile">
-        <i class="svg-container">
-          <svg-icon icon-class="user"></svg-icon>
-        </i>
+        <i class="el-icon-user-solid svg-container"></i>
         <el-input v-model="loginForm.mobile"></el-input>
       </el-form-item>
       <el-form-item prop="password">
         <i class="svg-container">
-          <svg-icon icon-class="password"></svg-icon>
+          <svg-icon iconClass="password"></svg-icon>
         </i>
-        <el-input v-model="loginForm.password"></el-input>
+        <el-input type="password" v-model="loginForm.password"></el-input>
       </el-form-item>
 
       <el-button
-        class="loginBtn"
         type="primary"
+        class="loginBtn"
         style="width: 100%; margin-bottom: 30px"
         :loading="isLogin"
         @click="login"
@@ -41,7 +39,7 @@
       >
 
       <div class="tips">
-        <span style="margin-right: 20px">账号: 13800000004</span>
+        <span style="margin-right: 20px">用户名: 13800000002</span>
         <span> 密码: 123456</span>
       </div>
     </el-form>
@@ -50,56 +48,52 @@
 
 <script>
 export default {
-  name: "Login",
+  name: 'Login',
   data() {
     return {
-      // 定义数据,整个表单的数据
+      // 1. 定义数据
       loginForm: {
-        mobile: "13800000002", //绑定在每一个el-input的v-model上面
-        password: "123456",
+        mobile: '13800000002',
+        password: '123456',
       },
       loginFormRules: {
-        // 规则名和数据名保持一致，每一个key都要绑定在对应el-form-item的prop上
+        // 规则名和数据名保持一致
         mobile: [
-          { required: true, message: "请输入手机号", trigger: "blur" },
+          { required: true, message: '请输入手机号', trigger: 'blur' },
           {
             pattern: /^(?:(?:\+|00)86)?1[3-9]\d{9}$/,
-            message: "手机号码格式不正确",
-            trigger: "blur",
+            message: '手机号码格式不正确',
+            trigger: 'blur',
           },
         ],
         password: [
-          { required: true, message: "请输入密码", trigger: "blur" },
+          { required: true, message: '请输入密码', trigger: 'blur' },
           // {
-          //   pattern: /^(?![a-zA-Z]+$)(?![A-Z0-9]+$)(?![A-Z\W_!@#$%^&*`~()-+=]+$)(?![a-z0-9]+$)(?![a-z\W_!@#$%^&*`~()-+=]+$)(?![0-9\W_!@#$%^&*`~()-+=]+$)[a-zA-Z0-9\W_!@#$%^&*`~()-+=]/,
-          //   message: "密码请包含数字字母特殊字符，并且不少于6位",
-          //   trigger: "blur",
+          //   pattern:
+          //     /^(?![a-zA-Z]+$)(?![A-Z0-9]+$)(?![A-Z\W_!@#$%^&*`~()-+=]+$)(?![a-z0-9]+$)(?![a-z\W_!@#$%^&*`~()-+=]+$)(?![0-9\W_!@#$%^&*`~()-+=]+$)[a-zA-Z0-9\W_!@#$%^&*`~()-+=]/,
+          //   message: '密码请包含数字字母特殊字符,并且不能少于6位',
+          //   trigger: 'blur',
           // },
         ],
       },
-      isLogin:false
-    };
+      isLogin: false,
+    }
   },
   methods: {
-    async login(){
-      this.isLogin=true
-      try{
+    async login() {
+      // console.log('点击登录')
+      this.isLogin = true
+      try {
         await this.$refs.loginForm.validate()
-        await this.$store.dispatch('user/getToken',this.loginForm)
+        await this.$store.dispatch('user/getToken', this.loginForm)
         this.$router.push('/')
         this.$message.success('登录成功')
-      }finally{
-        this.isLogin=false
+      } finally {
+        this.isLogin = false
       }
-    }
-    // login(){
-    //   this.$refs.loginForm.validate((valid)=>{
-    //     if(!valid)return
-    //     console.log('成功')
-    //   })
-    // }
-  }
-};
+    },
+  },
+}
 </script>
 
 <style lang="scss">
@@ -107,7 +101,7 @@ export default {
 /* Detail see https://github.com/PanJiaChen/vue-element-admin/pull/927 */
 
 $bg: #283443;
-$light_gray: #fff;
+$light_gray: #68b0fe;
 $cursor: #68b0fe;
 
 @supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
@@ -118,6 +112,9 @@ $cursor: #68b0fe;
 
 /* reset element-ui css */
 .login-container {
+  .el-form-item__error {
+    color: #fff;
+  }
   .loginBtn {
     background: #407ffe;
     height: 64px;
@@ -135,7 +132,7 @@ $cursor: #68b0fe;
       -webkit-appearance: none;
       border-radius: 0px;
       padding: 12px 5px 12px 15px;
-      color: $cursor;
+      color: $light_gray;
       height: 47px;
       caret-color: $cursor;
 
@@ -163,7 +160,7 @@ $light_gray: #eee;
 .login-container {
   min-height: 100%;
   width: 100%;
-  background-image: url("~@/assets/common/login.jpg"); // 设置背景图片
+  background-image: url('~@/assets/common/login.jpg'); // 设置背景图片
   background-position: center; // 将图片位置设置为充满整个屏幕
   overflow: hidden;
 
